@@ -45,7 +45,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food) {
+void Renderer::Render(Snake const snake, SDL_Point const &food, int level) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -53,6 +53,20 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
+
+  //update level maps
+  if(level==2){
+    loadLevel2();
+  }
+  else if (level == 3){
+    loadLevel3();
+  }
+  else if (level == 4){
+    loadLevel4();
+  }
+  else if(level==5){
+    loadLevel5();
+  }
 
   // Render food
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
@@ -85,4 +99,84 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
+}
+
+void Renderer::loadLevel2()
+{
+  SDL_Rect obstacleL, obstacleR, obstacleT, obstacleB ;
+  int width = screen_width / grid_width;
+  int height = screen_height / grid_height;
+  obstacleL.w = width;
+  obstacleL.h = 6*height;
+  obstacleR.w = width;
+  obstacleR.h = 6*height;
+  obstacleT.w = 6*width;
+  obstacleT.h = height;
+  obstacleB.w = 6*width;
+  obstacleB.h = height;
+  //render the obstacle on screen
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);   // Red color
+  obstacleL.x = 0 ;
+  obstacleL.y = 240;
+  obstacleR.x = 620 ;  //608
+  obstacleR.y = 240;
+  obstacleT.x = 240 ;  //224
+  obstacleT.y = 0;
+  obstacleB.x = 240 ; //224
+  obstacleB.y = 620;  //608
+  SDL_RenderFillRect(sdl_renderer, &obstacleL); // fill the rectangle with red color
+  SDL_RenderFillRect(sdl_renderer, &obstacleR);
+  SDL_RenderFillRect(sdl_renderer, &obstacleT);
+  SDL_RenderFillRect(sdl_renderer, &obstacleB);
+}
+
+void Renderer::loadLevel3()
+{
+  SDL_Rect obstacleLeftUp, obstacleLeftDown, obstacleRightUp, obstacleRightDown ;
+  SDL_Rect obstacleTopLeft, obstacleTopRight, obstacleBottomLeft, obstacleBottomRight;
+  int width = screen_width / grid_width;
+  int height = screen_height / grid_height;
+  obstacleLeftUp.h = obstacleLeftDown.h = obstacleRightUp.h = obstacleRightDown.h = 4*height ;
+  obstacleLeftUp.w = obstacleLeftDown.w = obstacleRightUp.w = obstacleRightDown.w = width ;
+  obstacleTopLeft.h = obstacleTopRight.h = obstacleBottomLeft.h =  obstacleBottomRight.h = height ;
+  obstacleTopLeft.w = obstacleTopRight.w = obstacleBottomLeft.w =  obstacleBottomRight.w = 4*width;
+  //render the obstacle on screen
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);   // Red color
+  obstacleLeftUp.x= 0;
+  obstacleLeftUp.y= 0;
+  obstacleLeftDown.x = 0;
+  obstacleLeftDown.y = 560 ;
+  obstacleRightUp.x =  620 ; //608 
+  obstacleRightUp.y = 0;
+  obstacleRightDown.x = 620;   //608  
+  obstacleRightDown.y = 560; //512
+  obstacleTopLeft.x = 0;
+  obstacleTopLeft.y = 0;
+  obstacleTopRight.x= 560;
+  obstacleTopRight.y = 0;
+  obstacleBottomLeft.x = 0 ;
+  obstacleBottomLeft.y = 620;
+  obstacleBottomRight.x = 560;
+  obstacleBottomRight.y = 620;
+
+  SDL_RenderFillRect(sdl_renderer, &obstacleLeftUp); // fil the rectangle with red color
+  SDL_RenderFillRect(sdl_renderer, &obstacleLeftDown);
+  SDL_RenderFillRect(sdl_renderer, &obstacleRightUp);
+  SDL_RenderFillRect(sdl_renderer, &obstacleRightDown);
+  SDL_RenderFillRect(sdl_renderer, &obstacleTopLeft);
+  SDL_RenderFillRect(sdl_renderer, &obstacleTopRight);
+  SDL_RenderFillRect(sdl_renderer, &obstacleBottomLeft);
+  SDL_RenderFillRect(sdl_renderer, &obstacleBottomRight);
+}
+
+void Renderer::loadLevel4()
+{
+  loadLevel2();
+  loadLevel3();
+}
+
+void Renderer::loadLevel5()
+{
+  loadLevel4();
+  //random block creation  
 }
