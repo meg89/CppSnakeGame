@@ -17,6 +17,7 @@ void Snake::Update() {
   if (current_cell.x != prev_cell.x || current_cell.y != prev_cell.y) {
     UpdateBody(current_cell, prev_cell);
   }
+  updateLevel();
 }
 
 void Snake::UpdateHead() {
@@ -61,6 +62,11 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
       alive = false;
     }
   }
+  Obstacle obs(screen_width, screen_height, grid_width, grid_height);
+  if( obs.isObstacle(level,current_head_cell.x, current_head_cell.y )== true){
+     alive = false;
+  }
+   
 }
 
 void Snake::GrowBody() { growing = true; }
@@ -76,4 +82,24 @@ bool Snake::SnakeCell(int x, int y) {
     }
   }
   return false;
+}
+
+void Snake::updateLevel(){
+  if(size > 5 && level < 5){
+    switch(level){
+      case 1 : level = 2; break;
+      case 2 : level = 3; break;
+      case 3 : level = 4; break;
+      case 4 : level = 5; break;
+    }
+
+    do{
+      body.erase(body.begin());
+      size-- ;
+    }while(size > 1); 
+  }
+}
+
+bool Snake::isAlive(){
+
 }

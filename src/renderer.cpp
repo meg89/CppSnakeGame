@@ -27,13 +27,13 @@ Renderer::Renderer(const std::size_t screen_width,
 
   // Create renderer
   sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
-  if (nullptr == sdl_renderer) {
+  if (sdl_renderer == nullptr) {
     std::cerr << "Hardware Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
     //custom Code //creating software renderer
     std::cerr<< "Using Software Renderer.\n";
     sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_SOFTWARE);
-    if (nullptr == sdl_renderer) {
+    if (sdl_renderer == nullptr) {
     std::cerr << "Software Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
     }
@@ -45,7 +45,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food, int level) {
+void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -55,16 +55,16 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, int level) {
   SDL_RenderClear(sdl_renderer);
 
   //update level maps
-  if(level==2){
+  if(snake.level == 2){
     loadLevel2();
   }
-  else if (level == 3){
+  else if (snake.level == 3){
     loadLevel3();
   }
-  else if (level == 4){
+  else if (snake.level == 4){
     loadLevel4();
   }
-  else if(level==5){
+  else if(snake.level==5){
     loadLevel5();
   }
 
@@ -96,8 +96,9 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, int level) {
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(int score, int fps, int level) {
+  std::string title{"Snake Score: " + std::to_string(score) + " Level: " + std::to_string(level) +
+                     " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
 

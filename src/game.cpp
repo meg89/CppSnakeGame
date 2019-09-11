@@ -2,11 +2,13 @@
 #include <iostream>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+Game::Game(std::size_t screen_width, std::size_t screen_height, 
+           std::size_t grid_width, std::size_t grid_height)
+    : snake(grid_width, grid_height, screen_width, screen_height),
+      obstacle(screen_width, screen_height, grid_width, grid_height),
       engine(dev()),
-      random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
+      random_w(0, static_cast<int>(screen_width/grid_width)),
+      random_h(0, static_cast<int>(screen_height/grid_height)) {
   PlaceFood();
 }
 
@@ -25,7 +27,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food,1);
+    renderer.Render(snake, food);
 
     frame_end = SDL_GetTicks();
 
@@ -36,7 +38,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(score, frame_count, snake.level);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -52,15 +54,19 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
 void Game::PlaceFood() {
   int x, y;
+  
   while (true) {
     x = random_w(engine);
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
+    if ( (!snake.SnakeCell(x, y)) && ( ! obstacle.isObstacle(snake.level, x,y)) ) {
       food.x = x;
       food.y = y;
       return;
+    }
+    else {
+      continue;
     }
   }
 }
@@ -79,9 +85,11 @@ void Game::Update() {
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
+    if(score % 5== 0)   // increase speed of the snake at the score of multiple of 5 
     snake.speed += 0.02;
   }
 }
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
+int Game::GetLevel() const { return snake.level; }

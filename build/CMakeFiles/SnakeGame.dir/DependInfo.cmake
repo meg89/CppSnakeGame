@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/megha/Desktop/CppND-Capstone-Snake-Game/src/controller.cpp" "/home/megha/Desktop/CppND-Capstone-Snake-Game/build/CMakeFiles/SnakeGame.dir/src/controller.cpp.o"
   "/home/megha/Desktop/CppND-Capstone-Snake-Game/src/game.cpp" "/home/megha/Desktop/CppND-Capstone-Snake-Game/build/CMakeFiles/SnakeGame.dir/src/game.cpp.o"
   "/home/megha/Desktop/CppND-Capstone-Snake-Game/src/main.cpp" "/home/megha/Desktop/CppND-Capstone-Snake-Game/build/CMakeFiles/SnakeGame.dir/src/main.cpp.o"
+  "/home/megha/Desktop/CppND-Capstone-Snake-Game/src/obstacle.cpp" "/home/megha/Desktop/CppND-Capstone-Snake-Game/build/CMakeFiles/SnakeGame.dir/src/obstacle.cpp.o"
   "/home/megha/Desktop/CppND-Capstone-Snake-Game/src/renderer.cpp" "/home/megha/Desktop/CppND-Capstone-Snake-Game/build/CMakeFiles/SnakeGame.dir/src/renderer.cpp.o"
   "/home/megha/Desktop/CppND-Capstone-Snake-Game/src/snake.cpp" "/home/megha/Desktop/CppND-Capstone-Snake-Game/build/CMakeFiles/SnakeGame.dir/src/snake.cpp.o"
   )
